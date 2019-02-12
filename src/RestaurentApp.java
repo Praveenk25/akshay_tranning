@@ -9,13 +9,13 @@ public class RestaurentApp {
 
 	public static void main(String[] args) {
 
-		String order = null;
-		String orderlist[] = null;
+		String userorder = null;
+		String userorderlist[] = null;
 		Scanner scan = new Scanner(System.in);
 
 		ArrayList<Menu> menulist = new ArrayList<Menu>();
-		Order finalorder = new Order();
-		Chef chef = new Chef();
+		PrepareOrder prepareorder = new PrepareOrder();
+		Kitchen waiter = new Kitchen();
 
 		Menu item1 = new Menu("Paneer butter Masala", true); // creating item of menu
 		Menu item2 = new Menu("Chana Masala", true);
@@ -47,24 +47,25 @@ public class RestaurentApp {
 		}
 
 		do {
-			ArrayList<Menu> finalorderlist = new ArrayList<Menu>();
-			int checkflag = 1;
+			ArrayList<Menu> orderlist = new ArrayList<Menu>();
+			int flag = 1;
 
 			System.out.println("\n Enter your order by serial no seperated by comma(,)"); // taking order in a string
-			order = scan.next();
-			orderlist = order.split(",");
+			userorder = scan.next();
+			userorderlist = userorder.split(",");
 
 			try {
 
 				// display the order
-				for (int i = 0; i < orderlist.length; i++) {
-					if (orderlist[i].length() == 1) {
-						Menu m = menulist.get((int) orderlist[i].charAt(0) - 48);
+				for (int i = 0; i < userorderlist.length; i++) {
+					if (userorderlist[i].length() == 1) { // check first input data is valid or not
+						Menu m = menulist.get((int) userorderlist[i].charAt(0) - 48);
 						if (m.available) { // checking availability
-							System.out.println(m.itemname);
-							finalorderlist.add(m);
-						} else
+							orderlist.add(m);
+						} else {
 							System.out.println(m.itemname + "\t is not available");
+							flag = 0; // change the flag status
+						}
 					}
 
 					else {
@@ -72,18 +73,20 @@ public class RestaurentApp {
 					}
 				}
 			} catch (InvalidDataException e) {
-				checkflag = 0;
+				flag = 0;
 				System.out.println(e.getMessage());
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 
-			if (checkflag != 0) // checking the invalid data
+			if (flag != 0) // checking the flag status
 			{
-				finalorder.add(finalorderlist);
-				chef.giveorder(); 
+				System.out.println("your order is\t" + orderlist); // print the order list
+				prepareorder.add(orderlist); // sending the order list to prepare the order object and add into the
+												// order queue
+				waiter.notifyToChef();
 			}
-			finalorderlist.clear(); // clearing the order list for next order
+			orderlist.clear(); // clearing the order list for next order
 
 		} while (true);
 	}

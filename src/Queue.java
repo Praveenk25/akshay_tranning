@@ -1,10 +1,10 @@
 import java.util.ArrayDeque;
 
 public class Queue {
-	public static ArrayDeque<SendOrder> orderqueue = new ArrayDeque<SendOrder>();
+	public static ArrayDeque<Order> orderqueue = new ArrayDeque<Order>();
 
-	public static void queue(SendOrder order) {
+	public static void queue(Order order) {
 		orderqueue.add(order); // adding the order into the queue
-		System.out.println(SendOrder.orderno + " submited in queue");
+		System.out.println("Your order is submitted & your order no is : " + Order.ordernumber);
 	}
 }

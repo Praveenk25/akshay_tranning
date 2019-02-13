@@ -4,7 +4,7 @@ public class Chef extends PrepareFood implements IntimetecRestaurent, Runnable {
 	Order order = null;
 	int flag=0;
 	public void run() {
-		System.out.println(Thread.currentThread().getName() + "  is start");
+		//System.out.println(Thread.currentThread().getName() + "  is start");
 
 		try {
 			gowait();
@@ -24,7 +24,6 @@ public class Chef extends PrepareFood implements IntimetecRestaurent, Runnable {
 		if (order!=null) {
 			prepareFood(order); 
 		}
-		else
 			gowait();
 	}
 

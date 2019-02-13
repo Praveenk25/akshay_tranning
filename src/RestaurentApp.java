@@ -56,7 +56,7 @@ public class RestaurentApp {
 
 			try {
 
-				// display the order
+				
 				for (int i = 0; i < userorderlist.length; i++) {
 					if (userorderlist[i].length() == 1) { // check first input data is valid or not
 						Menu m = menulist.get((int) userorderlist[i].charAt(0) - 48);
@@ -89,6 +89,7 @@ public class RestaurentApp {
 			orderlist.clear(); // clearing the order list for next order
 
 		} while (true);
+
 	}
 
 }

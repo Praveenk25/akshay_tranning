@@ -1,9 +1,10 @@
+package com.intimetec.main;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-import exceptions.InvalidDataException;
+import com.intimetec.exceptionOfRestaurentapp.InvalidDataException;
 
 public class RestaurentApp {
 
@@ -56,7 +57,6 @@ public class RestaurentApp {
 
 			try {
 
-				
 				for (int i = 0; i < userorderlist.length; i++) {
 					if (userorderlist[i].length() == 1) { // check first input data is valid or not
 						Menu m = menulist.get((int) userorderlist[i].charAt(0) - 48);
@@ -89,7 +89,7 @@ public class RestaurentApp {
 			orderlist.clear(); // clearing the order list for next order
 
 		} while (true);
-
+		
 	}
 
 }

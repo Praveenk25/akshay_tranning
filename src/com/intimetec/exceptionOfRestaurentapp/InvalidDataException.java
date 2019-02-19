@@ -1,4 +1,4 @@
-package exceptions;
+package com.intimetec.exceptionOfRestaurentapp;
 
 public class InvalidDataException extends Exception {
 

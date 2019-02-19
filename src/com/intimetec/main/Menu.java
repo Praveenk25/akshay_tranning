@@ -1,3 +1,4 @@
+package com.intimetec.main;
 
 public class Menu implements Comparable<Menu> {
 	String itemname;
@@ -15,7 +16,7 @@ public class Menu implements Comparable<Menu> {
 
 	@Override
 	public int compareTo(Menu o) {
-		if ((this.itemname).compareTo(o.itemname)>=0) {
+		if ((this.itemname).compareTo(o.itemname) >= 0) {
 			return 1;
 		}
 		return -1;

@@ -1,4 +1,5 @@
-import Interface.IntimetecRestaurent;
+package com.intimetec.main;
+import com.intimetec.interfaceOfRestaurentapp.IntimetecRestaurent;
 
 public class Kitchen {
 	Thread chef1;
@@ -34,7 +35,7 @@ public class Kitchen {
 
 	}
 
-	synchronized public void notifyToChef() { // notify to chef threads if they are in wait status
+	public synchronized void notifyToChef() { // notify to chef threads if they are in wait status
 
 		if (chefobject1 instanceof IntimetecRestaurent && chefobject1.flag == 0)
 			chefobject1.giveNotify();

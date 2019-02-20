@@ -2,12 +2,12 @@ package com.intimetec.main;
 import java.util.ArrayList;
 
 class Order {
-	static int ordernumber = 0;
-	int orderno = 0;
+	static int orderNumber = 0;
+	int orderNo = 0;
 	ArrayList<Menu> order = new ArrayList<Menu>();
 
 	public Order() {
-		orderno = ++ordernumber;
+		orderNo = ++orderNumber;
 	}
 }
 

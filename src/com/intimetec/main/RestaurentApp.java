@@ -2,6 +2,7 @@ package com.intimetec.main;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import com.intimetec.exceptionOfRestaurentapp.InvalidDataException;
@@ -10,60 +11,55 @@ public class RestaurentApp {
 
 	public static void main(String[] args) {
 
-		String userorder = null;
-		String userorderlist[] = null;
+		String userOrder = null;
+		String userOrderList[] = null;
 		Scanner scan = new Scanner(System.in);
 
-		ArrayList<Menu> menulist = new ArrayList<Menu>();
-		PrepareOrder prepareorder = new PrepareOrder();
+		HashSet<Menu> menuItem = new HashSet<Menu>();
+
+		PrepareOrder prepareOrder = new PrepareOrder();
 		Kitchen waiter = new Kitchen();
 
-		Menu item1 = new Menu("Paneer butter Masala", true); // creating item of menu
-		Menu item2 = new Menu("Chana Masala", true);
-		Menu item3 = new Menu("Sev tamater", true);
-		Menu item4 = new Menu("Besan Gutta", true);
-		Menu item5 = new Menu("Cauliflower (Gobi)", false);
-		Menu item6 = new Menu("Malai Methi", false);
-		Menu item7 = new Menu("Aloo Pyaj Paraatha", true);
-		Menu item8 = new Menu("Gobi Paratha", false);
-		Menu item9 = new Menu("Tandoor Roti", true);
-		Menu item10 = new Menu("Tava Roti", true);
+		menuItem.add(new Menu("Paneer butter Masala", true)); // creating item of menu
+		menuItem.add(new Menu("Chana Masala", true));
+		menuItem.add(new Menu("Sev tamater", true));
+		menuItem.add(new Menu("Besan Gutta", true));
+		menuItem.add(new Menu("Cauliflower (Gobi)", false));
+		menuItem.add(new Menu("Malai Methi", true));
+		menuItem.add(new Menu("Aloo Pyaj Paraatha", true));
+		menuItem.add(new Menu("Gobi Paratha", false));
+		menuItem.add(new Menu("Tandoor Roti", true));
+		menuItem.add(new Menu("Tava Roti", true));
 
-		menulist.add(item1); // add item into menu list
-		menulist.add(item2);
-		menulist.add(item3);
-		menulist.add(item4);
-		menulist.add(item5);
-		menulist.add(item6);
-		menulist.add(item7);
-		menulist.add(item8);
-		menulist.add(item9);
-		menulist.add(item10);
+		// menuItem.add(new Menu("Chana Masala", false));
 
-		Collections.sort(menulist); // sorting the list in alphabetic order
+		ArrayList<Menu> menuList = new ArrayList<Menu>();
+		menuList.addAll(menuItem);
 
-		for (Menu item : menulist) { // print menu list on console
-			System.out.print(menulist.indexOf(item) + "\t");
+		Collections.sort(menuList); // sorting the list in alphabetic order
+
+		for (Menu item : menuList) { // print menu list on console
+			System.out.print(menuList.indexOf(item) + "\t");
 			System.out.println(item + "\n");
 		}
 
 		do {
-			ArrayList<Menu> orderlist = new ArrayList<Menu>();
+			ArrayList<Menu> orderList = new ArrayList<Menu>();
 			int flag = 1;
 
 			System.out.println("\n Enter your order by serial no seperated by comma(,)"); // taking order in a string
-			userorder = scan.next();
-			userorderlist = userorder.split(",");
+			userOrder = scan.next();
+			userOrderList = userOrder.split(",");
 
 			try {
 
-				for (int i = 0; i < userorderlist.length; i++) {
-					if (userorderlist[i].length() == 1) { // check first input data is valid or not
-						Menu m = menulist.get((int) userorderlist[i].charAt(0) - 48);
+				for (int i = 0; i < userOrderList.length; i++) {
+					if (userOrderList[i].length() == 1) { // check first input data is valid or not
+						Menu m = menuList.get((int) userOrderList[i].charAt(0) - 48);
 						if (m.available) { // checking availability
-							orderlist.add(m);
+							orderList.add(m);
 						} else {
-							System.out.println(m.itemname + "\t is not available");
+							System.out.println(m.itemName + "\t is not available");
 							flag = 0; // change the flag status
 						}
 					}
@@ -81,15 +77,15 @@ public class RestaurentApp {
 
 			if (flag != 0) // checking the flag status
 			{
-				System.out.println("your order is\t" + orderlist); // print the order list
-				prepareorder.add(orderlist); // sending the order list to prepare the order object and add into the
+				System.out.println("your order is\t" + orderList); // print the order list
+				prepareOrder.add(orderList); // sending the order list to prepare the order object and add into the
 												// order queue
 				waiter.notifyToChef();
 			}
-			orderlist.clear(); // clearing the order list for next order
+			orderList.clear(); // clearing the order list for next order
 
 		} while (true);
-		
+
 	}
 
 }

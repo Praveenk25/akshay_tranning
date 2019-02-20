@@ -18,7 +18,7 @@ public class Chef extends PrepareFood implements IntimetecRestaurent, Runnable {
 	public void order() throws InterruptedException {
 
 		// if (!Queue.orderqueue.isEmpty()) { // pulling the order object
-		order = Queue.orderqueue.pollFirst();
+		order = Queue.orderQueue.pollFirst();
 
 		// }
 		if (order != null) {

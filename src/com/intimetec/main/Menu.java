@@ -11,7 +11,7 @@ public class Menu implements Comparable<Menu> {
 	}
 
 	public String toString() {
-		return itemName + "\t\t" + available;
+		return itemName + " " + available;
 	}
 
 	public boolean equals(Object o) {

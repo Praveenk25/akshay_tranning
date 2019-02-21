@@ -16,9 +16,8 @@ public class RestaurentApp {
 		Scanner scan = new Scanner(System.in);
 
 		HashSet<Menu> menuItem = new HashSet<Menu>();
-
 		PrepareOrder prepareOrder = new PrepareOrder();
-		Kitchen waiter = new Kitchen();
+		Kitchen kitchen = new Kitchen();
 
 		menuItem.add(new Menu("Paneer butter Masala", true)); // creating item of menu
 		menuItem.add(new Menu("Chana Masala", true));
@@ -31,24 +30,26 @@ public class RestaurentApp {
 		menuItem.add(new Menu("Tandoor Roti", true));
 		menuItem.add(new Menu("Tava Roti", true));
 
-		// menuItem.add(new Menu("Chana Masala", false));
-
 		ArrayList<Menu> menuList = new ArrayList<Menu>();
 		menuList.addAll(menuItem);
 
 		Collections.sort(menuList); // sorting the list in alphabetic order
 
-		for (Menu item : menuList) { // print menu list on console
+		for (Menu item : menuList) { // print menu list on console with the availaible
 			System.out.print(menuList.indexOf(item) + "\t");
-			System.out.println(item + "\n");
+			if (item.available) {
+				System.out.println(item.itemName + "    Available\n");
+			} else {
+				System.out.println(item.itemName + "     Not Available\n");
+			}
 		}
 
 		do {
 			ArrayList<Menu> orderList = new ArrayList<Menu>();
 			int flag = 1;
 
-			System.out.println("\n Enter your order by serial no seperated by comma(,)"); // taking order in a string
-			userOrder = scan.next();
+			System.out.println("\n Enter your order by serial no seperated by comma(,)"); 
+			userOrder = scan.next();// taking order in a string
 			userOrderList = userOrder.split(",");
 
 			try {
@@ -59,7 +60,7 @@ public class RestaurentApp {
 						if (m.available) { // checking availability
 							orderList.add(m);
 						} else {
-							System.out.println(m.itemName + "\t is not available");
+							System.out.println(m.itemName + " is not available");
 							flag = 0; // change the flag status
 						}
 					}
@@ -77,10 +78,10 @@ public class RestaurentApp {
 
 			if (flag != 0) // checking the flag status
 			{
-				System.out.println("your order is\t" + orderList); // print the order list
+				System.out.println("your order is " + orderList); // print the order list
 				prepareOrder.add(orderList); // sending the order list to prepare the order object and add into the
 												// order queue
-				waiter.notifyToChef();
+				kitchen.notifyToChef();
 			}
 			orderList.clear(); // clearing the order list for next order
 

@@ -4,7 +4,7 @@ public class InvalidDataException extends Exception {
 	private static final long serialVersionUID = 42L;
 
 	public String getMessage() {
-		return "Invalid Data";
+		return "Please enter the valid sr no.";
 	}
 
 }

@@ -1,4 +1,5 @@
 package com.intimetec.main;
+
 import java.util.ArrayList;
 
 class Order {
@@ -12,8 +13,7 @@ class Order {
 }
 
 public class PrepareOrder {
-	// make the order object
-	public void add(ArrayList<Menu> orderlist) {
+	public void add(ArrayList<Menu> orderlist) {// make the order object
 		Order order = new Order();
 
 		for (Menu m : orderlist) {

@@ -1,5 +1,5 @@
 package com.intimetec.main;
-import com.intimetec.interfaceOfRestaurentapp.IntimetecRestaurent;
+
 
 public class Kitchen {
 	Thread chef1;
@@ -37,12 +37,15 @@ public class Kitchen {
 
 	public synchronized void notifyToChef() { // notify to chef threads if they are in wait status
 
-		if (chefObject1 instanceof IntimetecRestaurent && chefObject1.flag == 0)
+		if (chefObject1.flag == 0) {
 			chefObject1.giveNotify();
-		else if (chefObject2 instanceof IntimetecRestaurent && chefObject2.flag == 0)
+		}
+		else if (chefObject2.flag == 0) {
 			chefObject2.giveNotify();
-		else if (chefObject3 instanceof IntimetecRestaurent && chefObject3.flag == 0)
+		}
+		else if (chefObject3.flag == 0) {
 			chefObject3.giveNotify();
+		}
 
 	}
 

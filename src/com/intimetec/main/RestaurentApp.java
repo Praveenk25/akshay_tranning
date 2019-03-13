@@ -1,79 +1,60 @@
 package com.intimetec.main;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.Scanner;
 
-import com.intimetec.exceptionOfRestaurentapp.InvalidDataException;
+import com.intimetec.controller.MenuController;
+import com.intimetec.controller.MenuControllerImpl;
+import com.intimetec.controller.OrderController;
+import com.intimetec.controller.OrderControllerImpl;
+import com.intimetec.model.DatabaseConnection;
 
 public class RestaurentApp {
 
 	public static void main(String[] args) {
+		char choice;
 
-		String userOrder = null;
-		String userOrderList[] = null;
 		Scanner scan = new Scanner(System.in);
 
-		PrepareOrder prepareOrder = new PrepareOrder();
-		Kitchen kitchen = new Kitchen();
+		MenuController menuController = new MenuControllerImpl();
+		OrderController orderController = new OrderControllerImpl();
+		do {
+			System.out.println("1.View Menu List");
+			System.out.println("2.Add Menu Item");
+			System.out.println("3.Delete Menu Item");
+			System.out.println("4.Update Menu Item");
+			System.out.println("5.Create Order");
+			System.out.println("6.View Order");
+			System.out.println("7.Exit");
 
-		ArrayList<Menu> menuList = new ArrayList<Menu>();
-		menuList = Menu.getMenuList();
-		Collections.sort(menuList); // sorting the list in alphabetic order
-		
-		for (Menu item : menuList) { // print menu list on console with the availaible
-			System.out.print(menuList.indexOf(item) + "\t");
-			if (item.available) {
-				System.out.println(item.itemName + "    Available\n");
-			} else {
-				System.out.println(item.itemName + "     Not Available\n");
+			choice = scan.next().charAt(0);
+
+			switch (choice) {
+			case '1':
+				menuController.viewMenuList();
+				break;
+			case '2':
+				menuController.addMenuItem();
+				break;
+			case '3':
+				menuController.deleteMenuItem();
+				break;
+			case '4':
+				menuController.updateItem();
+				break;
+			case '5':
+				orderController.newOrder();
+				break;
+			case '6':
+				orderController.viewOrder();
+				break;
+			case '7':
+				DatabaseConnection.closeConnection();
+				System.exit(0);
+			default:
+				System.out.println("you give wrong input");
 			}
-		}
-		if (!menuList.isEmpty()) {
-			do {
-				ArrayList<Menu> orderList = new ArrayList<Menu>();
-				int flag = 1;
+		} while (true);
 
-				System.out.println("\n Enter your order by serial no seperated by comma(,)");
-				userOrder = scan.next();// taking order in a string
-				userOrderList = userOrder.split(",");
-
-				try {
-
-					for (int i = 0; i < userOrderList.length; i++) {
-						if (Integer.parseInt(userOrderList[i]) < menuList.size()) { // check first input data is valid or not
-							Menu m = menuList.get((int) userOrderList[i].charAt(0) - 48);
-							if (m.available) { // checking availability
-								orderList.add(m);
-							} else {
-								System.out.println(m.itemName + " is not available");
-								flag = 0; // change the flag status
-							}
-						}
-
-						else {
-							throw new InvalidDataException();
-						}
-					}
-				} catch (InvalidDataException e) {
-					flag = 0;
-					System.out.println(e.getMessage());
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-
-				if (flag != 0) // checking the flag status
-				{
-					System.out.println("your order is " + orderList); // print the order list
-					prepareOrder.add(orderList); // sending the order list to prepare the order object and add into the
-													// order queue
-					kitchen.notifyToChef();
-				}
-				orderList.clear(); // clearing the order list for next order
-
-			} while (true);
-		}
 	}
 
 }

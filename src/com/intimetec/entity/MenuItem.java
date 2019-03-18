@@ -1,6 +1,8 @@
 package com.intimetec.entity;
 
 public class MenuItem implements Comparable<MenuItem> {
+	private int serialNo;
+
 	private String itemName;
 
 	private float price;
@@ -9,6 +11,14 @@ public class MenuItem implements Comparable<MenuItem> {
 
 	public MenuItem() {
 
+	}
+
+	public void setSerialNo(int serialNo) {
+		this.serialNo = serialNo;
+	}
+
+	public int getSerialNo() {
+		return serialNo;
 	}
 
 	public String getItemName() {

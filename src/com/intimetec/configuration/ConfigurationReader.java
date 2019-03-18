@@ -20,10 +20,10 @@ public class ConfigurationReader {
 
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
-			System.out.println("connectivity issue");
+			System.out.println(Constants.DB_CONNECTION_ISSUE);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
-			System.out.println("connectivity issue");
+			System.out.println(Constants.DB_CONNECTION_ISSUE);
 		}
 
 		return properties;

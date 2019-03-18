@@ -3,6 +3,7 @@ package com.intimetec.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.intimetec.constants.Constants;
 import com.intimetec.entity.MenuItem;
 import com.intimetec.service.MenuService;
 import com.intimetec.service.MenuServiceImpl;
@@ -27,13 +28,13 @@ public class MenuControllerImpl implements MenuController {
 
 		Scanner scan = new Scanner(System.in);
 
-		System.out.print("Item name : ");
+		System.out.print(Constants.ITEM_NAME);
 		menuItem.setItemName(scan.nextLine());
 
-		System.out.print("\nPrice : ");
+		System.out.print(Constants.ITEM_PRICE);
 		menuItem.setPrice(scan.nextInt());
 
-		System.out.print("\nPress Y for available  &  N for not available: ");
+		System.out.print(Constants.ITEM_AVAILABILITY);
 		char available = scan.next().charAt(0);
 		if (available == 'y' || available == 'Y') {
 			menuItem.setAvailable(true);
@@ -46,9 +47,12 @@ public class MenuControllerImpl implements MenuController {
 
 	public void deleteMenuItem() {
 		Scanner scan = new Scanner(System.in);
-
-		System.out.print("enter item name you want to delete : ");
-		menuService.deleteMenuItem(scan.nextLine());
+		
+		MenuItem menuItem = new MenuItem();
+		System.out.print(Constants.DELETE_ITEM);
+		menuItem.setItemName(scan.nextLine());
+		
+		menuService.deleteMenuItem(menuItem);
 
 	}
 
@@ -57,13 +61,13 @@ public class MenuControllerImpl implements MenuController {
 
 		Scanner scan = new Scanner(System.in);
 
-		System.out.print("Enter Item name you want to update : ");
+		System.out.print(Constants.UPDATE_ITEM_NAME);
 		menuItem.setItemName(scan.nextLine());
 
-		System.out.print("\n new Price : ");
+		System.out.print(Constants.ITEM_PRICE);
 		menuItem.setPrice(scan.nextInt());
 
-		System.out.print("\nPress Y for available  &  N for not available: ");
+		System.out.print(Constants.ITEM_AVAILABILITY);
 		char available = scan.next().charAt(0);
 		if (available == 'y' || available == 'Y') {
 			menuItem.setAvailable(true);

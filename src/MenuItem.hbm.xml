@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+ <hibernate-mapping>
+ 	<class name = "com.intimetec.entity.MenuItem" table = "MenuItem">
+ 	
+ 	<id name = "serialNo" column = "SerialNo">
+ 		<generator class="increment"></generator>
+ 	</id>
+ 	
+ 	<property name="itemName" column = "ItemName" type = "string"></property>
+ 	<property name="price" column = "Price" type = "float"></property>
+ 	<property name="available" column = "Availability" type = "boolean"></property>
+ 	
+ 	</class>
+ 
+ </hibernate-mapping>

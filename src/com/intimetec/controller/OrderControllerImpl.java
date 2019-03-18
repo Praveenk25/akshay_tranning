@@ -3,7 +3,9 @@ package com.intimetec.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.intimetec.customException.InvalidOrderNo;
+import org.hibernate.query.criteria.internal.expression.function.AggregationFunction.COUNT;
+
+import com.intimetec.constants.Constants;
 import com.intimetec.entity.MenuItem;
 import com.intimetec.entity.Order;
 import com.intimetec.entity.OrderItem;
@@ -37,47 +39,45 @@ public class OrderControllerImpl implements OrderController {
 
 		menuList = menuService.getMenuList();
 
-		{
-			char choice;
+		char choice;
 
-			do {
-				System.out.println("\n Enter your order by serial no");
+		int count = 0;
+		do {
+			System.out.println(Constants.ASKING_ORDER);
 
-				int serialNo = scan.nextInt();
+			int serialNo = scan.nextInt();
 
-				try {
-					if (serialNo < menuList.size()) {
+			if (serialNo < menuList.size()) {
 
-						if (menuList.get(serialNo).isAvailable()) {
-							OrderItem orderItem = new OrderItem();
+				if (menuList.get(serialNo).isAvailable()) {
+					OrderItem orderItem = new OrderItem();
 
-							orderItem.setItemName(menuList.get(serialNo).getItemName());
-							orderItem.setPrice(menuList.get(serialNo).getPrice());
+					orderItem.setItemName(menuList.get(serialNo).getItemName());
+					orderItem.setPrice(menuList.get(serialNo).getPrice());
 
-							System.out.println("please enter the quantity");
-							orderItem.setQuantity(scan.nextInt());
+					System.out.println("please enter the quantity");
+					orderItem.setQuantity(scan.nextInt());
 
-							orderList.add(orderItem);
-						} else {
-							System.out.println(menuList.get(serialNo).getItemName() + " is not available");
-						}
-					} else {
-						throw new InvalidOrderNo();
-					}
-				} catch (InvalidOrderNo e) {
-					System.out.println(e.getMessage());
-				} catch (Exception e) {
-					System.out.println("please enter valid input");
-					System.out.println(e.getMessage());
+					orderList.add(orderItem);
+					count++;
+				} else {
+					System.out.println(menuList.get(serialNo).getItemName() + " is not available");
 				}
+			} else {
+				System.out.println("please enter valid input");
+			}
 
-				System.out.println("For add more press Y  &  to Submit order press any key ");
-				choice = scan.next().charAt(0);
-			} while (choice == 'y' || choice == 'Y');
+			System.out.println(Constants.ASKING_FOR_MORE_ORDER);
+			choice = scan.next().charAt(0);
+		} while (choice == 'y' || choice == 'Y');
+
+		if (count > 0) {
+			order = orderService.submitOrder(order, orderList);
+
+			orderView.viewOrder(order, orderList);
+		} else {
+			System.out.println("you not order any item");
 		}
-		order = orderService.submitOrder(order, orderList);
-
-		orderView.viewOrder(order, orderList);
 	}
 
 	public void viewOrder() {
@@ -97,6 +97,8 @@ public class OrderControllerImpl implements OrderController {
 			orderList = orderService.getOrderList(orderNo);
 
 			orderView.viewOrder(order, orderList);
+		} else {
+			System.out.println(Constants.ORDER_NOT_EXIST);
 		}
 	}
 

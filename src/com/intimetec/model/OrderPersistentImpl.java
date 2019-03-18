@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import com.intimetec.constants.Constants;
 import com.intimetec.entity.Order;
 import com.intimetec.entity.OrderItem;
@@ -13,110 +17,36 @@ import com.intimetec.entity.OrderItem;
 public class OrderPersistentImpl implements OrderPersistent {
 
 	public void submitOrder(Order order, ArrayList<OrderItem> orderList) {
-		Connection connection = DatabaseConnection.getConnection();
+		CreateSessionFactory createSessionFactory = new CreateSessionFactory();
 
-		int orderNo = 0;
+		Session session = createSessionFactory.getSession();
 
-		if (connection != null) {
-			PreparedStatement preparedStatement = null;
+		Transaction transaction = session.beginTransaction();
 
-			PreparedStatement statementToGetOrderNo = null;
+		int orderNo = (int) session.save(order);
 
-			PreparedStatement statementToSubmitOrderItems = null;
+		for (OrderItem orderItem : orderList) {
 
-			ResultSet resultSet = null;
+			orderItem.setOrder(order);
 
-			try {
-				preparedStatement = connection.prepareStatement(Constants.ADD_ORDER);
-
-				statementToGetOrderNo = connection.prepareStatement(Constants.GET_ORDER_NO);
-
-				preparedStatement.setString(1, order.getCustomerName());
-				preparedStatement.setDate(2, order.getDate());
-				preparedStatement.setBoolean(3, false);
-				preparedStatement.setFloat(4, order.getTotalAmount());
-				preparedStatement.setString(5, order.getMobileNo());
-				preparedStatement.setTime(6, order.getTime());
-
-				preparedStatement.executeUpdate();
-
-				statementToGetOrderNo.setString(1, order.getCustomerName());
-				statementToGetOrderNo.setString(2, order.getMobileNo());
-				statementToGetOrderNo.setTime(3, order.getTime());
-
-				resultSet = statementToGetOrderNo.executeQuery();
-				resultSet.next();
-				orderNo = resultSet.getInt("OrderNo");
-
-			} catch (SQLException e) {
-				System.out.println("connectivity issue order not submitted");
-				System.out.println(e.getMessage());
-			}
-
-			try {
-				statementToSubmitOrderItems = connection.prepareStatement(Constants.ADD_ORDER_ITEM);
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-			for (OrderItem orderItem : orderList) {
-				orderItem.setOrderNo(orderNo);
-				try {
-					statementToSubmitOrderItems.setInt(1, orderNo);
-					statementToSubmitOrderItems.setString(2, orderItem.getItemName());
-					statementToSubmitOrderItems.setFloat(3, orderItem.getPrice());
-					statementToSubmitOrderItems.setInt(4, orderItem.getQuantity());
-
-					statementToSubmitOrderItems.addBatch();
-				} catch (SQLException e) {
-					System.out.println(e.getMessage());
-					e.printStackTrace();
-				}
-			}
-			try {
-				statementToSubmitOrderItems.executeBatch();
-
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-
+			session.save(orderItem);
 		}
+
+		transaction.commit();
+
+		session.close();
 
 	}
 
 	public Order getOrder(int orderNo) {
-		Connection connection = DatabaseConnection.getConnection();
+		CreateSessionFactory createSessionFactory = new CreateSessionFactory();
 
-		ResultSet resultSet = null;
-
-		Order order = new Order();
-
-		if (connection != null) {
-			try {
-				PreparedStatement preparedStatement = connection.prepareStatement(Constants.GET_ORDER);
-				preparedStatement.setInt(1, orderNo);
-
-				resultSet = preparedStatement.executeQuery();
-			} catch (SQLException e) {
-				System.out.println("connectivity issue");
-				System.out.println(e.getMessage());
-			}
-
-		}
-
+		Session session = createSessionFactory.getSession();
+		
 		try {
-			resultSet.next();
-			order.setOrderNo(orderNo);
-			order.setCustomerName(resultSet.getString("CustomerName"));
-			order.setDate(resultSet.getDate("OrderDate"));
-			order.setMobileNo(resultSet.getString("MobileNo"));
-			order.setTime(resultSet.getTime("Time"));
-			order.setTotalAmount(resultSet.getFloat("TotalAmount"));
-
-			return order;
-		} catch (SQLException e) {
-			System.out.println(orderNo + "is not exist");
+		return session.get(Order.class, orderNo);
+		}
+		catch(Exception e) {
 			return null;
 		}
 	}
@@ -135,7 +65,7 @@ public class OrderPersistentImpl implements OrderPersistent {
 				resultSet = preparedStatement.executeQuery();
 
 			} catch (SQLException e) {
-				System.out.println("connectivity issue");
+				System.out.println(Constants.DB_CONNECTION_ISSUE);
 				System.out.println(e.getMessage());
 			}
 
@@ -143,7 +73,6 @@ public class OrderPersistentImpl implements OrderPersistent {
 				while (resultSet.next()) {
 					OrderItem orderItem = new OrderItem();
 					orderItem.setItemName(resultSet.getString("orderItem"));
-					orderItem.setOrderNo(resultSet.getInt("orderNo"));
 					orderItem.setPrice(resultSet.getFloat("price"));
 					orderItem.setQuantity(resultSet.getInt("quantity"));
 
@@ -153,6 +82,15 @@ public class OrderPersistentImpl implements OrderPersistent {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 				return null;
+			} finally {
+				if (resultSet != null) {
+					try {
+						resultSet.close();
+					} catch (SQLException e) {
+						System.out.println(Constants.DB_CONNECTION_ISSUE);
+						System.out.println(e.getMessage());
+					}
+				}
 			}
 
 			return orderList;

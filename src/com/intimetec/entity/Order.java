@@ -2,24 +2,65 @@ package com.intimetec.entity;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
+@Entity
+@Table(name = "orders")
 public class Order {
+	@Id
+	@Type(type = "int")
+	@Column(name = "orderNo")
+	@GeneratedValue
 	private int orderNo;
 
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private List<OrderItem> orderItems = new ArrayList<>(); 
+	
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
+
+	@Type(type = "string")
+	@Column(name = "CustomerName")
 	private String customerName;
 
-	private String MobileNo;
+	@Type(type = "string")
+	@Column(name = "mobileNo")
+	private String mobileNo;
 
+	@Type(type = "date")
+	@Column(name = "OrderDate")
 	private Date date;
 
+	@Type(type = "time")
+	@Column(name = "time")
 	private Time time;
 
+	@Type(type = "boolean")
+	@Column(name = "paymentStatus")
 	private boolean paymentStatus;
 
+	@Type(type = "float")
+	@Column(name = "totalAmount")
 	private float totalAmount;
 
 	public String getMobileNo() {
-		return MobileNo;
+		return mobileNo;
 	}
 
 	public void setOrderNo(int orderNo) {
@@ -27,7 +68,7 @@ public class Order {
 	}
 
 	public void setMobileNo(String mobileNo) {
-		MobileNo = mobileNo;
+		this.mobileNo = mobileNo;
 	}
 
 	public void setTime(Time time) {
@@ -75,7 +116,7 @@ public class Order {
 	}
 
 	public String toString() {
-		return "orderNo=" + orderNo + ", customerName=" + customerName + ", MobileNo=" + MobileNo + ", " + date + ", "
+		return "orderNo=" + orderNo + ", customerName=" + customerName + ", mobileNo=" + mobileNo + ", " + date + ", "
 				+ time;
 	}
 

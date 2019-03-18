@@ -11,7 +11,7 @@ import com.intimetec.constants.Constants;
 public class DatabaseConnection {
 	private static Connection connection = null;
 
-	public static Connection getConnection() {
+	static Connection getConnection() {
 
 		if (connection == null) {
 			ConfigurationReader configurationReader = new ConfigurationReader();

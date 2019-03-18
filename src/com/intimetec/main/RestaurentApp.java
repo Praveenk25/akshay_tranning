@@ -2,6 +2,7 @@ package com.intimetec.main;
 
 import java.util.Scanner;
 
+import com.intimetec.constants.Constants;
 import com.intimetec.controller.MenuController;
 import com.intimetec.controller.MenuControllerImpl;
 import com.intimetec.controller.OrderController;
@@ -18,14 +19,8 @@ public class RestaurentApp {
 		MenuController menuController = new MenuControllerImpl();
 		OrderController orderController = new OrderControllerImpl();
 		do {
-			System.out.println("1.View Menu List");
-			System.out.println("2.Add Menu Item");
-			System.out.println("3.Delete Menu Item");
-			System.out.println("4.Update Menu Item");
-			System.out.println("5.Create Order");
-			System.out.println("6.View Order");
-			System.out.println("7.Exit");
-
+			System.out.println(Constants.APPLICATION_FEATURES);
+			
 			choice = scan.next().charAt(0);
 
 			switch (choice) {
@@ -49,9 +44,10 @@ public class RestaurentApp {
 				break;
 			case '7':
 				DatabaseConnection.closeConnection();
+				scan.close();
 				System.exit(0);
 			default:
-				System.out.println("you give wrong input");
+				System.out.println(Constants.WRONG_INPUT);
 			}
 		} while (true);
 

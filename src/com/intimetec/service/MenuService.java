@@ -10,7 +10,7 @@ public interface MenuService {
 
 	void addMenuItem(MenuItem menuItem);
 
-	void deleteMenuItem(String itemName);
+	void deleteMenuItem(MenuItem menuItem);
 
 	public void updateItem(MenuItem menuItem);
 

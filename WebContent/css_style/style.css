@@ -1,0 +1,46 @@
+body {
+	background-image: url("../images/homePage.jpg");
+	background-size: 100%;
+	background-color: white;
+}
+
+label {
+	color: white;
+}
+
+th, tr, td {
+	text-align: left;
+	padding: 10px 10px;
+	color: white;
+}
+
+.table60 {
+	width: 60%;
+}
+
+h2 {
+	text-align: center;
+	color: white;
+	background-colour: black;
+	padding: 15px 25px;
+}
+
+h1 {
+	color: red;
+}
+
+a {
+	color: #ffffff;
+	padding: 6px 6px;
+	text-decoration: none;
+}
+
+a:hover {
+	background-color: #ffffff;
+	color: #400000;
+}
+
+a:active {
+	background-color: #ffffff;
+	color: #400000;
+}

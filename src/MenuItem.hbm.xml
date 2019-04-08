@@ -4,9 +4,9 @@
  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
  
  <hibernate-mapping>
- 	<class name = "com.intimetec.entity.MenuItem" table = "MenuItem">
+ 	<class name = "com.intimetec.restaurant.entity.MenuItem" table = "MenuItem">
  	
- 	<id name = "serialNo" column = "SerialNo">
+ 	<id name = "Id" column = "Id">
  		<generator class="increment"></generator>
  	</id>
  	

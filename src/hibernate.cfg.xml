@@ -6,16 +6,20 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name = "hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name = "hibernate.connection.url">jdbc:mysql://localhost:3306/restaurentapp</property>
+		<property name = "hibernate.connection.url">jdbc:mysql://localhost:3306/restaurantApp</property>
 		<property name = "hibernate.connection.username">root</property>
 		<property name = "hibernate.connection.password">system</property>
 	
-		<property name = "hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name = "hibernate.dialect">org.hibernate.dialect.MySQLDialect </property>
 		<property name = "hbm2ddl.auto">update</property>
 		<property name="show_sql">true</property>
-		<mapping class = "com.intimetec.entity.Order"/>
-		<mapping class = "com.intimetec.entity.OrderItem"/>
+		<mapping class = "com.intimetec.restaurant.entity.Order"/>
+		<mapping class = "com.intimetec.restaurant.entity.OrderItem"/>
 		<mapping resource="MenuItem.hbm.xml"/>
+		<mapping class = "com.intimetec.restaurant.entity.User"/>
+		<mapping class = "com.intimetec.restaurant.entity.UserRole"/>
+		<mapping class = "com.intimetec.restaurant.entity.RestaurantService"/>
+		<mapping class = "com.intimetec.restaurant.entity.UserServiceId"/>
 		
 	</session-factory>
 	
